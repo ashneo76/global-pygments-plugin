@@ -119,7 +119,7 @@ class PygmentsParser:
                 text = f.read()
                 return text
         except Exception as e:
-            print >> sys.stderr, e
+            print(e, file=sys.stderr)
             return None
 
 class CtagsParser:
@@ -131,7 +131,7 @@ class CtagsParser:
         self.options = options
 
     def parse(self, path):
-        print >> self.child_stdin, path
+        print(path, file=self.child_stdin)
         self.child_stdin.flush()
         result = {}
         while True:
@@ -188,13 +188,13 @@ def handle_requests(langmap, options):
             break
         path = path.rstrip()
         tags = parser.parse(path)
-        for (isdef, tag, lnum),image in tags.iteritems():
+        for (isdef, tag, lnum),image in tags.items():
             if isdef:
                 typ = 'D'
             else:
                 typ = 'R'
-            print typ, tag, lnum, path, image
-        print TERMINATOR,
+            print(typ, tag, lnum, path, image)
+        print(TERMINATOR, end=' ')
         sys.stdout.flush()
 
 def get_parser_options_from_env(parser_options):
